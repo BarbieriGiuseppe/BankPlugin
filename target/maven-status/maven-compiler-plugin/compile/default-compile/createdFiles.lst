@@ -1,5 +1,0 @@
-bank\plugin\items\CardInfo.class
-bank\plugin\atm\Atm.class
-bank\plugin\items\GiveItems.class
-bank\plugin\main\Main.class
-bank\plugin\items\YamlUtils.class

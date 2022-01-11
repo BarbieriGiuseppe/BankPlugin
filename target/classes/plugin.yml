@@ -1,6 +1,0 @@
-main: bank.plugin.main.Main
-name: BankPlugin
-version: 1.0
-api-version: 1.16
-description: Descrizione del plugin
-author: ReStar
