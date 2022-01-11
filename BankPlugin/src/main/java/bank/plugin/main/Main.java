@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import bank.plugin.atm.Atm;
 import bank.plugin.items.YamlUtils;
+import net.milkbowl.vault.economy.Economy;
 import bank.plugin.items.CardInfo;
 import bank.plugin.items.GiveItems;
 //import bank.plugin.items.InfoStorageUtil;
@@ -23,13 +25,17 @@ public class Main extends JavaPlugin implements Listener{
 	public Atm atm = new Atm();
 	private CardInfo playerData;
 	public YamlUtils carte;
-		
+	private static Economy econ;
 		@Override
 		public void onEnable() {
 			//this.carte = new AbstractFileCarte(this);
 			 plugin = this;
 			 
-			
+			if(!setupEconomy()) {
+				System.out.println("Nessun economy plugin trovato. Disabilitando BankPlugin");
+				getServer().getPluginManager().disablePlugin(this);
+				return;
+			}
 			 
 			// this.playerData = new CardInfo(this, null, null, null);
 			 
@@ -45,6 +51,7 @@ public class Main extends JavaPlugin implements Listener{
 			 		+ "");
 					
 			
+			 
 			 PluginManager pm = getServer().getPluginManager();
 			 pm.registerEvents(player, this);
 			 pm.registerEvents(atm, this);
@@ -53,13 +60,27 @@ public class Main extends JavaPlugin implements Listener{
 		}
 		
 		
-	/*	private boolean setupEconomy() {
+		private boolean setupEconomy() {
 			if(getServer().getPluginManager().getPlugin("Vault") == null) {
 				return false;
 			}
 			
-			getServer().getServicesManager().register(Economy.class, arg1, arg2, arg3);
-		}*/
+			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+			if(rsp == null) {
+				
+				return false;
+			}
+			
+			econ = rsp.getProvider();
+			return  econ != null;
+			
+		}
+		
+		public static Economy getEconomy() {
+			
+			return econ;
+			
+		}
 		
 		
 		@Override

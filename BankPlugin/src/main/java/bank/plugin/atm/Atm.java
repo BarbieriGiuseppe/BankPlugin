@@ -2,6 +2,7 @@ package bank.plugin.atm;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -24,6 +27,7 @@ import bank.plugin.items.CardInfo;
 import bank.plugin.main.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.milkbowl.vault.economy.Economy;
 import net.wesjd.anvilgui.AnvilGUI;
 import net.wesjd.anvilgui.AnvilGUI.Builder;
 
@@ -37,11 +41,10 @@ public class Atm implements Listener {
 		String playerName;
 	CardInfo ci = new CardInfo(pin, cardId, playerName);
 	String message = ChatColor.RED + "Devi avere una carta di credito in mano!";
-	
-	//File configFile = new File(YamlUtils.get(), "config.yml");
-	//FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-	//YamlUtils dati = new YamlUtils();
 	FileConfiguration config;
+	private static Economy econ;
+	private Inventory inv;
+	
 	@EventHandler
 	public void onPlayerClick(PlayerInteractEvent event) throws IOException {
 		String contoBase = "Conto Base";
@@ -89,7 +92,8 @@ public class Atm implements Listener {
 				    		
 				    		
 				    			 if(config.getString("Pin").equalsIgnoreCase(text)) {
-				    				 player.sendMessage("Corretto");
+				    				 
+				    				 player.openInventory(atmGui(event));
 				    				 return AnvilGUI.Response.close();
 					            
 				    			 	}else {
@@ -113,7 +117,65 @@ public class Atm implements Listener {
 				    
 	}
 	
-	
+	public Inventory atmGui(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		
+		
+		inv = Bukkit.createInventory(player, 36, "Prelievo: " + player.getName());
+
+		inv.setItem(11,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.05€", 3));
+		inv.setItem(12,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.10€", 4));
+		inv.setItem(13,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.50€", 5));
+		inv.setItem(14,createGuiItem(Material.STICK, ChatColor.GOLD + "1€", 6));
+		inv.setItem(15,createGuiItem(Material.STICK, ChatColor.GOLD + "2€", 7));
+		inv.setItem(19,createGuiItem(Material.STICK, ChatColor.DARK_AQUA + "5€", 8));
+		inv.setItem(20,createGuiItem(Material.STICK, ChatColor.RED + "10€", 9));
+		inv.setItem(21,createGuiItem(Material.STICK, ChatColor.AQUA + "20€", 10));
+		inv.setItem(22,createGuiItem(Material.STICK, ChatColor.GOLD + "50€", 11));
+		inv.setItem(23,createGuiItem(Material.STICK, ChatColor.GREEN + "100€", 12));
+		inv.setItem(24,createGuiItem(Material.STICK, ChatColor.YELLOW + "200€", 13));
+		inv.setItem(25,createGuiItem(Material.STICK, ChatColor.LIGHT_PURPLE + "500€", 14));
+		
+		inv.setItem(31,createBalItem(Material.GOLD_INGOT, 
+				ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
+		
+		return inv;
+	}
 	 
-	
+	 // Nice little method to create a gui item with a custom name, and description
+    
+	 // Cancel dragging in our inventory
+	 @EventHandler
+	    public void onInventoryClick(final InventoryDragEvent e) {
+		 
+	        if (e.getInventory().equals(inv)) {
+	          e.setCancelled(true);
+	        }
+	    }
+	 
+	 protected ItemStack createGuiItem(final Material material, final String name, final int modelData) {
+	        final ItemStack item = new ItemStack(material, 1);
+	        final ItemMeta meta = item.getItemMeta();
+
+	        // Set the name of the item
+	        meta.setDisplayName(name);
+	        meta.setCustomModelData(modelData);
+
+	        item.setItemMeta(meta);
+
+	        return item;
+	    }
+	 
+	 protected ItemStack createBalItem(final Material material, final String name, final String bal) {
+	        final ItemStack item = new ItemStack(material, 1);
+	        final ItemMeta meta = item.getItemMeta();
+
+	        // Set the name of the item
+	        meta.setDisplayName(name);
+	        meta.setLore(Arrays.asList(bal));
+
+	        item.setItemMeta(meta);
+
+	        return item;
+	    }
 }
