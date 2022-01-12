@@ -43,8 +43,8 @@ public class Atm implements Listener {
 	String message = ChatColor.RED + "Devi avere una carta di credito in mano!";
 	FileConfiguration config;
 	private static Economy econ;
-	private Inventory inv;
-	
+	 Inventory inv;
+	//InventoryEvents inve = new InventoryEvents();
 	@EventHandler
 	public void onPlayerClick(PlayerInteractEvent event) throws IOException {
 		String contoBase = "Conto Base";
@@ -142,16 +142,6 @@ public class Atm implements Listener {
 		return inv;
 	}
 	 
-	 // Nice little method to create a gui item with a custom name, and description
-    
-	 // Cancel dragging in our inventory
-	 @EventHandler
-	    public void onInventoryClick(final InventoryDragEvent e) {
-		 
-	        if (e.getInventory().equals(inv)) {
-	          e.setCancelled(true);
-	        }
-	    }
 	 
 	 protected ItemStack createGuiItem(final Material material, final String name, final int modelData) {
 	        final ItemStack item = new ItemStack(material, 1);

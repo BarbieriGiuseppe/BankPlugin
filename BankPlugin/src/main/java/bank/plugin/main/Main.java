@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import bank.plugin.atm.Atm;
+import bank.plugin.atm.InventoryEvents;
 import bank.plugin.items.YamlUtils;
 import net.milkbowl.vault.economy.Economy;
 import bank.plugin.items.CardInfo;
@@ -25,6 +26,7 @@ public class Main extends JavaPlugin implements Listener{
 	public Atm atm = new Atm();
 	private CardInfo playerData;
 	public YamlUtils carte;
+	public InventoryEvents inve = new InventoryEvents();
 	private static Economy econ;
 		@Override
 		public void onEnable() {
@@ -54,8 +56,9 @@ public class Main extends JavaPlugin implements Listener{
 			 
 			 PluginManager pm = getServer().getPluginManager();
 			 pm.registerEvents(player, this);
+			 pm.registerEvents(inve, this);
 			 pm.registerEvents(atm, this);
-			 
+			
 			 
 		}
 		
