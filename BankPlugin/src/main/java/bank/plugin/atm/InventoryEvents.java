@@ -33,11 +33,12 @@ public class InventoryEvents implements Listener{
 		String atmName = "Prelievo: " + player.getName();
 		Economy econ = Main.getEconomy();
 		double balance = econ.getBalance(player);
+		
       /* 	*/
 		
 		
 		if (clickedItem == null || clickedItem.getType().isAir()) {
-        	// funziona System.out.println("esistoqua");
+        	
         	return;
         }
 		
@@ -45,17 +46,28 @@ public class InventoryEvents implements Listener{
 			return;
 		}
 		
+		//System.out.println(e.getInventory().toString());
+		
 		if(player.getOpenInventory().getTitle().equals(atmName) && balance <= 0) {
+			
+			player.sendMessage(ChatColor.RED + "Non hai abbastanza soldi sul conto per prelevare questa cifra!");
 			e.setCancelled(true);
-			player.sendMessage(ChatColor.RED + "Non hai denaro da poter ritirare!");
+			player.closeInventory();
+			
 		}
 		
-		if(player.getOpenInventory().getTitle().equals(atmName) && balance >= 0) {
+		if(player.getOpenInventory().getTitle().equals(atmName) ) {
 			e.setCancelled(true);
+			if(e.getClick().isLeftClick() || e.getClick().isRightClick() || e.getClick().isKeyboardClick()) {
+				e.setCancelled(true);
+			}
+			
 			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.05€", 3))) {
 				Main.getEconomy().withdrawPlayer(player, 0.05);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.05€", 3));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 0.05€");
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+				ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 				
 			}
 			
@@ -63,77 +75,88 @@ public class InventoryEvents implements Listener{
 				Main.getEconomy().withdrawPlayer(player, 0.10);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.10€", 4));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 0.10€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.05€", 5))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.50€", 5))) {
 				Main.getEconomy().withdrawPlayer(player, 0.50);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "0.50€", 5));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 0.50€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "1€", 6))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "1€", 6))) {
 				Main.getEconomy().withdrawPlayer(player, 1);
-				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "1€", 6));
+				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "1€", 6));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 1€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "2€", 7))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "2€", 7))) {
 				Main.getEconomy().withdrawPlayer(player, 2);
-				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "2€", 7));
+				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "2€", 7));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 2€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.DARK_AQUA + "5€", 8))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.AQUA + "5€", 8))) {
 				Main.getEconomy().withdrawPlayer(player, 5);
-				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.DARK_AQUA + "5€", 8));
+				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.AQUA + "5€", 8));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 5€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
 			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.RED + "10€", 9))) {
 				Main.getEconomy().withdrawPlayer(player, 10);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.RED + "10€", 9));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 10€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
 			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.AQUA + "20€", 10))) {
 				Main.getEconomy().withdrawPlayer(player, 20);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.AQUA + "20€", 10));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 20€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "50€", 11))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "50€", 11))) {
 				Main.getEconomy().withdrawPlayer(player, 50);
-				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.GOLD + "50€", 11));
+				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "50€", 11));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 50€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
-			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.AQUA + "100€", 10))) {
+			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.GREEN + "100€", 12))) {
 				Main.getEconomy().withdrawPlayer(player, 100);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.GREEN + "100€", 12));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 100€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
 			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "200€", 13))) {
 				Main.getEconomy().withdrawPlayer(player, 200);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.YELLOW + "200€", 13));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 200€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
 			if(clickedItem.equals(atm.createGuiItem(Material.STICK, ChatColor.LIGHT_PURPLE + "500€", 14))) {
 				Main.getEconomy().withdrawPlayer(player, 500);
 				player.getInventory().addItem(atm.createGuiItem(Material.STICK, ChatColor.LIGHT_PURPLE + "500€", 14));
 				player.sendMessage(ChatColor.GREEN + "Hai ritirato 500€");
-				
+				player.getOpenInventory().getTopInventory().setItem(31,atm.createBalItem(Material.GOLD_INGOT, 
+						ChatColor.GOLD + "Bilancio di " + player.getName(),Main.getEconomy().format(Main.getEconomy().getBalance(player))));
 			}
 			
 			

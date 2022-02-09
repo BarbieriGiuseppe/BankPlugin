@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.StringUtil;
 
 import bank.plugin.items.YamlUtils;
 import bank.plugin.items.CardInfo;
@@ -40,7 +41,7 @@ public class Atm implements Listener {
 		String cardId;
 		String playerName;
 	CardInfo ci = new CardInfo(pin, cardId, playerName);
-	String message = ChatColor.RED + "Devi avere una carta di credito in mano!";
+	String message = ChatColor.RED + "Devi avere una carta di credito in mano per prelevare!";
 	FileConfiguration config;
 	private static Economy econ;
 	 Inventory inv;
@@ -53,7 +54,6 @@ public class Atm implements Listener {
 		
 		ItemStack baseCard = new ItemStack(Material.STICK,1);
 	    ItemMeta meta = baseCard.getItemMeta();
-	  
 
 		if ( event.getAction() == Action.RIGHT_CLICK_BLOCK){ 
 			if(event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.INFESTED_STONE) {
@@ -62,9 +62,10 @@ public class Atm implements Listener {
 				
 							openAnvilGui(event);
 
-				}else {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(message));
-				}		
+				} else {
+	                	player.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(message));
+	                }
+						
 			}
 	   }      
 
@@ -126,12 +127,12 @@ public class Atm implements Listener {
 		inv.setItem(11,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.05€", 3));
 		inv.setItem(12,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.10€", 4));
 		inv.setItem(13,createGuiItem(Material.STICK, ChatColor.YELLOW + "0.50€", 5));
-		inv.setItem(14,createGuiItem(Material.STICK, ChatColor.GOLD + "1€", 6));
-		inv.setItem(15,createGuiItem(Material.STICK, ChatColor.GOLD + "2€", 7));
-		inv.setItem(19,createGuiItem(Material.STICK, ChatColor.DARK_AQUA + "5€", 8));
+		inv.setItem(14,createGuiItem(Material.STICK, ChatColor.YELLOW + "1€", 6));
+		inv.setItem(15,createGuiItem(Material.STICK, ChatColor.YELLOW + "2€", 7));
+		inv.setItem(19,createGuiItem(Material.STICK, ChatColor.AQUA + "5€", 8));
 		inv.setItem(20,createGuiItem(Material.STICK, ChatColor.RED + "10€", 9));
 		inv.setItem(21,createGuiItem(Material.STICK, ChatColor.AQUA + "20€", 10));
-		inv.setItem(22,createGuiItem(Material.STICK, ChatColor.GOLD + "50€", 11));
+		inv.setItem(22,createGuiItem(Material.STICK, ChatColor.YELLOW + "50€", 11));
 		inv.setItem(23,createGuiItem(Material.STICK, ChatColor.GREEN + "100€", 12));
 		inv.setItem(24,createGuiItem(Material.STICK, ChatColor.YELLOW + "200€", 13));
 		inv.setItem(25,createGuiItem(Material.STICK, ChatColor.LIGHT_PURPLE + "500€", 14));
