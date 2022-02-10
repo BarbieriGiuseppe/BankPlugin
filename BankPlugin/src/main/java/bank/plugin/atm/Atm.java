@@ -111,7 +111,7 @@ public class Atm implements Listener {
 				    
 				          return AnvilGUI.Response.close();
 				    })		                                                       //prevents the inventory from being closed
-				    .text("Pin")                              //sets the text the GUI should start with
+				    .text("§a")                              //sets the text the GUI should start with
 				    .title("Inserisci il PIN")                                    //set the title of the GUI (only works in 1.14+)
 				    .plugin(Main.getInstance())                                          //set the plugin instance
 				    .open(player);
