@@ -1,6 +1,8 @@
-main: bank.plugin.main.Main
-name: BankPlugin
+main: atm.plugin.main.Main
+name: AtmPlugin
 version: 1.0
-api-version: 1.16
-description: Descrizione del plugin
-author: ReStar
+api-version: 1.15
+depends:
+- Vault
+description: Made by ReStar__
+author: ReStar__
